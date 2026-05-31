@@ -324,7 +324,7 @@
     <span class="w-1.5 h-1.5 rounded-full bg-green-400 
                  animate-pulse inline-block"></span>
     Available for freelance &amp; internships
-    <a href="#contact" 
+    <a href="#footer" 
        class="text-theme-accent hover:text-white transition-colors 
               duration-300 border-b border-theme-accent/40 
               hover:border-white pb-0.5">
@@ -337,10 +337,149 @@
     </button>
   </div>
 
-  <!-- Preloader Screen -->
-  <div id="preloader">
-    <div id="preloader-circle"></div>
-    <div id="preloader-text">Loading...</div>
+  <!-- Premium Preloader -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,900&family=UnifrakturMaguntia&family=Courier+Prime:wght@400;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+#ld-outer{position:relative;min-height:560px;overflow:hidden;border-radius:8px;background:#EBE4CF;}
+
+#ld-peek{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;opacity:0;pointer-events:none;
+}
+#ld-peek-title{font-family:'UnifrakturMaguntia',cursive;font-size:clamp(40px,7vw,72px);color:#0C0904;opacity:.07;line-height:1;}
+#ld-peek-sub{font-family:'Courier Prime',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:#0C0904;opacity:.25;}
+
+#premium-loader{
+  position:fixed; z-index:99999;inset:0;
+  background:#0C0904;
+  color:#EBE4CF;
+  font-family:'Courier Prime',monospace;
+  padding:22px 28px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+#premium-loader::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,rgba(235,228,207,.045) 1px,transparent 1px);
+  background-size:3.5px 3.5px;
+}
+#ld-flash{position:absolute;inset:0;background:#EBE4CF;opacity:0;z-index:20;pointer-events:none;}
+
+#ld-top,#ld-center,#ld-bottom,.ld-reg{position:relative;z-index:1;}
+
+.ld-reg{
+  position:absolute;width:18px;height:18px;opacity:0;pointer-events:none;z-index:5;
+  background:url("data:image/svg+xml,%3Csvg xmlns%3D'http%3A//www.w3.org/2000/svg' viewBox%3D'0 0 20 20'%3E%3Ccircle cx%3D'10' cy%3D'10' r%3D'4' fill%3D'none' stroke%3D'%23EBE4CF' stroke-width%3D'0.9'/%3E%3Cline x1%3D'10' y1%3D'0' x2%3D'10' y2%3D'20' stroke%3D'%23EBE4CF' stroke-width%3D'0.9'/%3E%3Cline x1%3D'0' y1%3D'10' x2%3D'20' y2%3D'10' stroke%3D'%23EBE4CF' stroke-width%3D'0.9'/%3E%3C/svg%3E") no-repeat center/contain;
+}
+
+#ld-top{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(235,228,207,.35);opacity:0;flex-shrink:0;
+}
+
+#ld-center{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px 0;
+}
+#ld-kicker{
+  display:inline-block;background:transparent; border:1px solid rgba(235,228,207,0.3);color:#EBE4CF;
+  font-weight:700;font-size:8px;letter-spacing:.26em;text-transform:uppercase;
+  padding:4px 12px;margin-bottom:18px;
+  opacity:0;transform:translateX(-22px);
+}
+#ld-title{
+  font-family:'UnifrakturMaguntia',cursive;
+  font-size:clamp(42px,8.5vw,96px);
+  color:#EBE4CF;line-height:.84;letter-spacing:-.01em;
+  opacity:0;transform:translateY(28px);
+  text-shadow:0 0 80px rgba(142,16,16,.35);
+}
+#ld-ornament{
+  display:flex;align-items:center;gap:8px;width:68%;margin:16px auto;opacity:0;
+}
+#ld-orn-l,#ld-orn-r{flex:1;height:.5px;background:rgba(235,228,207,.22);}
+#ld-orn-l{transform:scaleX(0);transform-origin:right;}
+#ld-orn-r{transform:scaleX(0);transform-origin:left;}
+#ld-orn-g{font-size:9px;color:rgba(235,228,207,.22);letter-spacing:3px;white-space:nowrap;flex-shrink:0;}
+#ld-tagline{
+  font-size:10px;letter-spacing:.26em;text-transform:uppercase;font-style:italic;
+  color:rgba(235,228,207,.3);opacity:0;
+}
+
+#ld-bottom{flex-shrink:0;position:relative;z-index:1;}
+#ld-ticker-row{overflow:hidden;white-space:nowrap;opacity:0;margin-bottom:12px;}
+.ld-ts{
+  display:inline-block;
+  font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(235,228,207,.16);
+  animation:ld-t 22s linear infinite;
+}
+@keyframes ld-t{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+#ld-info-row{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:8px;opacity:0;
+}
+#ld-status{
+  font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(235,228,207,.35);padding-bottom:6px;
+  transition:color .3s;
+}
+#ld-counter{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:900;
+  font-size:clamp(50px,9vw,84px);
+  line-height:1;letter-spacing:-.02em;color:#EBE4CF;
+}
+#ld-bar-wrap{width:100%;height:2px;background:rgba(235,228,207,.07);overflow:hidden;opacity:0;}
+#ld-bar{height:100%;width:0%;background:#8E1010;}
+
+#ld-replay{text-align:center;padding:10px 0 2px;}
+#ld-replay-btn{
+  background:transparent;border:.5px solid rgba(12,9,4,.22);
+  color:rgba(12,9,4,.4);
+  font-family:'Courier Prime',monospace;font-size:9px;
+  text-transform:uppercase;letter-spacing:.2em;
+  padding:7px 18px;cursor:pointer;
+  transition:border-color .2s,color .2s;
+}
+#ld-replay-btn:hover{border-color:rgba(12,9,4,.6);color:rgba(12,9,4,.85);}
+</style>
+<div id="premium-loader">
+    <div id="ld-flash"></div>
+    <div class="ld-reg" style="top:14px;left:12px"></div>
+    <div class="ld-reg" style="top:14px;right:12px"></div>
+    <div class="ld-reg" style="bottom:14px;left:12px"></div>
+    <div class="ld-reg" style="bottom:14px;right:12px"></div>
+
+    <div id="ld-top">
+      <span>System Initialization</span>
+      <span>GK // Portfolio</span>
+    </div>
+
+    <div id="ld-center">
+      <span id="ld-kicker">&#9733;&thinsp;System Initialization&thinsp;&#9733;</span>
+      <div id="ld-title">Welcome</div>
+      <div id="ld-ornament">
+        <div id="ld-orn-l"></div>
+        <span id="ld-orn-g">&#10022; &#10022; &#10022;</span>
+        <div id="ld-orn-r"></div>
+      </div>
+      <div id="ld-tagline">&ldquo;All the code that&rsquo;s fit to ship.&rdquo;</div>
+    </div>
+
+    <div id="ld-bottom">
+      <div id="ld-ticker-row">
+        <span class="ld-ts">COMPOSING TYPE &#9632; INKING ROLLERS &#9632; RUNNING PRESS &#9632; CUTTING EDITION &#9632; PORTFOLIO LOADING &#9632; GK // AHMEDABAD, GUJARAT &#9632; COMPOSING TYPE &#9632; INKING ROLLERS &#9632; RUNNING PRESS &#9632; CUTTING EDITION &#9632; PORTFOLIO LOADING &#9632; GK // AHMEDABAD, GUJARAT &#9632; </span>
+      </div>
+      <div id="ld-info-row">
+        <span id="ld-status">Composing type...</span>
+        <span id="ld-counter">0%</span>
+      </div>
+      <div id="ld-bar-wrap"><div id="ld-bar"></div></div>
+    </div>
   </div>
 
   <!-- Scroll Progress Bar -->
@@ -741,6 +880,36 @@
 
         </div>
 
+        <!-- Interactive Terminal CTA -->
+        <a href="security.html" class="block fade-in-section mt-12 border border-white/10 bg-[#121212] p-8 lg:p-10 relative overflow-hidden group hover:border-theme-accent/30 transition-all duration-500 text-decoration-none" style="transition-delay:150ms;">
+          <!-- Glitch overlay background -->
+          <div class="absolute inset-0 bg-theme-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+          
+          <!-- Terminal Header -->
+          <div class="flex items-center gap-2 mb-6 opacity-50 group-hover:opacity-100 transition-opacity duration-300">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+            <span class="font-mono text-[10px] text-white/50 ml-2 uppercase tracking-widest">Terminal — Access Request</span>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 relative z-10">
+            <div class="font-mono text-[13px] md:text-[14px] text-white/60">
+              <p class="mb-2"><span class="text-theme-accent">root@kashyap</span><span class="text-white">:~#</span> ./access_library.sh --execute</p>
+              <p class="text-white/40 group-hover:text-theme-text transition-colors duration-300">> Establishing secure connection...</p>
+              <p class="text-white/40 group-hover:text-theme-text transition-colors duration-300 delay-75">> Bypassing firewalls [OK]</p>
+              <p class="text-theme-accent mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150 blink-fast">Access Granted. Press enter to continue █</p>
+            </div>
+            
+            <div class="flex items-center gap-4 border-b border-theme-accent/0 group-hover:border-theme-accent/50 pb-1 transition-all duration-300">
+              <span class="font-display italic text-[24px] md:text-[32px] text-white group-hover:text-theme-accent transition-colors duration-300">
+                Enter The Library
+              </span>
+              <svg class="w-6 h-6 md:w-8 md:h-8 text-theme-accent transform group-hover:translate-x-3 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </div>
+          </div>
+        </a>
+
         <!-- Footer strip -->
         <div
           class="fade-in-section mt-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-t border-white/10 pt-8"
@@ -851,84 +1020,193 @@
             <span class="font-body text-[11px] uppercase tracking-[0.25em] text-theme-muted">Security Tools</span>
           </div>
 
-          <!-- Stat 4 -->
-          <div class="flex flex-col items-center justify-center py-10 px-6 text-center group fade-in-section border-t border-theme-border lg:border-t-0">
-            <div class="flex items-end gap-1 mb-3">
-              <span class="font-display text-[clamp(48px,6vw,80px)] font-normal leading-none tracking-tighter text-theme-accent counter" data-target="100" data-suffix="%">0</span>
-            </div>
-            <span class="font-body text-[11px] uppercase tracking-[0.25em] text-theme-muted">AI-Assisted, Human-Driven</span>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section-padding py-[160px] border-t border-theme-border bg-[#EBE5DF]/50">
-      <div class="fade-in-section max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
-        <div>
-          <span class="font-body text-[11px] uppercase tracking-[0.3em] text-theme-muted block mb-6">05 &mdash;
-            Contact</span>
-          <h2
-            class="reveal-block font-display font-normal text-[clamp(48px,7vw,100px)] leading-[0.9] tracking-tighter mb-8">
-            Let's Build<br><span class="italic text-theme-muted">Something.</span>
-          </h2>
-          <p class="text-theme-text font-serif italic text-[20px] max-w-sm">
-            Open to collaborations, freelance projects, and interesting conversations.
-          </p>
-        </div>
-
-        <div class="flex flex-col justify-end">
-          <a href="mailto:kashayapgajjar71@gmail.com"
-            class="magnetic group flex justify-between items-end py-8 border-b border-theme-border hover:border-theme-text transition-colors duration-500">
-            <span
-              class="font-display text-[clamp(24px,3vw,36px)] font-normal text-theme-text group-hover:italic transition-all duration-500 pointer-events-none"><img src="https://cdn.jsdelivr.net/npm/pixelarticons@1.8.0/svg/mail.svg" width="32" height="32" style="opacity:1; display:inline-block; vertical-align:middle; margin-right:8px; margin-bottom:4px;">Email</span>
-            <span
-              class="font-body text-[13px] text-theme-muted group-hover:text-theme-text transition-colors duration-500 pointer-events-none">kashayapgajjar71@gmail.com</span>
-          </a>
-
-          <a href="https://github.com/GajjarKashyap" target="_blank" rel="noopener noreferrer"
-            class="magnetic group flex justify-between items-end py-8 border-b border-theme-border hover:border-theme-text transition-colors duration-500">
-            <span
-              class="font-display text-[clamp(24px,3vw,36px)] font-normal text-theme-text group-hover:italic transition-all duration-500 pointer-events-none"><img src="https://cdn.jsdelivr.net/npm/pixelarticons@1.8.0/svg/github.svg" width="32" height="32" style="opacity:1; display:inline-block; vertical-align:middle; margin-right:8px; margin-bottom:4px;">GitHub</span>
-            <span
-              class="font-body text-[13px] text-theme-muted group-hover:text-theme-text transition-colors duration-500 pb-1 pointer-events-none">github.com/GajjarKashyap</span>
-          </a>
-
-          <a href="resume.pdf" download="Gajjar_Kashyap_Resume.pdf"
-            class="magnetic group flex justify-between items-end py-8 border-b border-theme-border hover:border-theme-text transition-colors duration-500">
-            <span class="font-display text-[clamp(24px,3vw,36px)] font-normal text-theme-text group-hover:italic transition-all duration-500 pointer-events-none"><img src="https://cdn.jsdelivr.net/npm/pixelarticons@1.8.0/svg/article.svg" width="32" height="32" style="opacity:1; display:inline-block; vertical-align:middle; margin-right:8px; margin-bottom:4px;">Resume</span>
-            <span class="font-body text-[13px] text-theme-muted group-hover:text-theme-text transition-colors duration-500 pointer-events-none">
-              Download PDF
-            </span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/YOUR_LINKEDIN_HANDLE" target="_blank" rel="noopener noreferrer"
-            class="magnetic group flex justify-between items-end py-8 border-b border-theme-border hover:border-theme-text transition-colors duration-500">
-            <span class="font-display text-[clamp(24px,3vw,36px)] font-normal text-theme-text group-hover:italic transition-all duration-500 pointer-events-none"><img src="https://cdn.jsdelivr.net/npm/pixelarticons@1.8.0/svg/users.svg" width="32" height="32" style="opacity:1; display:inline-block; vertical-align:middle; margin-right:8px; margin-bottom:4px;">LinkedIn</span>
-            <span class="font-body text-[13px] text-theme-muted group-hover:text-theme-text transition-colors duration-500 pointer-events-none">
-              Connect professionally
-            </span>
-          </a>
-        </div>
-      </div>
     </section>
   </main>
 
-  <footer class="py-8 px-6 lg:px-[7%] flex justify-between items-center bg-theme-bg border-t border-theme-border/50">
-    <div class="flex flex-col md:flex-row gap-4 md:items-center">
-      <a href="#top"
-        class="font-display text-lg font-bold tracking-tighter text-theme-text hover:italic transition-all">GK.</a>
-      <span id="live-clock"
-        class="font-mono text-[11px] uppercase tracking-[0.2em] text-theme-muted border-l border-theme-border pl-4 hidden md:block">00:00:00
-        AM</span>
+  
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.nf{
+  --ink:#0C0904;--paper:#EBE4CF;--red:#8E1010;--gold:#7A5C10;
+  background-color:var(--paper);
+  background-image:radial-gradient(circle,rgba(12,9,4,.065) 1px,transparent 1px);
+  background-size:3.5px 3.5px;
+  color:var(--ink);
+  font-family:'IM Fell English','Times New Roman',serif;
+  border-top:4px solid var(--ink);
+  position:relative;overflow:hidden;
+  filter:contrast(1.02);
+}
+.nf-coffee{
+  position:absolute;width:68px;height:68px;border-radius:50%;
+  border:6px solid rgba(85,50,8,.045);
+  box-shadow:0 0 0 2px rgba(85,50,8,.03),0 0 18px 6px rgba(85,50,8,.025);
+  top:190px;right:52px;pointer-events:none;z-index:0;
+}
+.nf-reg{
+  position:absolute;width:20px;height:20px;pointer-events:none;z-index:3;opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns%3D'http%3A//www.w3.org/2000/svg' viewBox%3D'0 0 20 20'%3E%3Ccircle cx%3D'10' cy%3D'10' r%3D'4.5' fill%3D'none' stroke%3D'%230C0904' stroke-width%3D'0.8'/%3E%3Cline x1%3D'10' y1%3D'0' x2%3D'10' y2%3D'20' stroke%3D'%230C0904' stroke-width%3D'0.8'/%3E%3Cline x1%3D'0' y1%3D'10' x2%3D'20' y2%3D'10' stroke%3D'%230C0904' stroke-width%3D'0.8'/%3E%3C/svg%3E");
+  background-size:contain;
+}
+.nf-ticker{background:var(--red);overflow:hidden;white-space:nowrap;border-bottom:1.5px solid rgba(0,0,0,.3);position:relative;z-index:1;padding:5px 0;}
+.nf-ticker-track{display:inline-flex;align-items:center;gap:0;animation:nf-roll 38s linear infinite;will-change:transform;}
+.nf-ticker-track:hover{animation-play-state:paused}
+@keyframes nf-roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.nf-tb{display:inline-block;background:#EBE4CF;color:var(--red);font-family:'Courier Prime',monospace;font-weight:700;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;padding:2px 8px;margin:0 12px 0 28px;flex-shrink:0;}
+.nf-tt{color:#EBE4CF;font-family:'Courier Prime',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;flex-shrink:0;}
+.nf-ts{color:rgba(235,228,207,.25);font-size:16px;margin:0 24px;flex-shrink:0;}
+.nf-mast{padding:0 32px;position:relative;z-index:1;}
+.nf-mast-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:.5px solid var(--ink);}
+.nf-meta{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.48;}
+.nf-special{background:var(--red);color:#EBE4CF;font-family:'Courier Prime',monospace;font-weight:700;font-size:8px;letter-spacing:.24em;text-transform:uppercase;padding:4px 10px;display:inline-block;transform:rotate(-1.5deg);transition:transform .25s,opacity .25s;}
+.nf-special:hover{transform:rotate(0deg);opacity:.8;}
+.nf-title-block{text-align:center;padding:16px 0 14px;border-bottom:5px double var(--ink);position:relative;}
+.nf-title-main{font-family:'UnifrakturMaguntia',cursive;font-size:clamp(50px,9.8vw,118px);line-height:.84;color:var(--ink);display:block;text-shadow:1.5px 1.5px 0 rgba(12,9,4,.09);letter-spacing:-.01em;}
+.nf-tagline-text{display:block;font-family:'IM Fell English',serif;font-style:italic;font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;opacity:.52;margin-top:10px;}
+.nf-orn{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1.5px solid var(--ink);}
+.nf-orn-line{flex:1;height:.5px;background:var(--ink);opacity:.65;}
+.nf-orn-g{font-size:10px;opacity:.32;letter-spacing:4px;white-space:nowrap;}
+.nf-grid{display:grid;grid-template-columns:1.75fr 1px 1.08fr 1px 1fr;padding:24px 32px 28px;border-bottom:5px double var(--ink);position:relative;z-index:1;}
+.nf-vd{background:var(--ink);margin:0 20px;opacity:.85;}
+.nf-kicker-bar{display:flex;justify-content:space-between;align-items:center;font-family:'Courier Prime',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.22em;opacity:.52;border-bottom:1.5px solid var(--ink);padding-bottom:5px;margin-bottom:9px;}
+.nf-live{color:var(--red);opacity:1!important;font-weight:700;}
+.nf-byline-line{font-family:'Courier Prime',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;opacity:.42;margin-bottom:9px;}
+.nf-hed{font-family:'Playfair Display',serif;font-weight:900;font-style:italic;font-size:22.5px;line-height:1.04;margin-bottom:12px;color:var(--ink);}
+.nf-copy{font-size:13px;line-height:1.72;text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;color:var(--ink);}
+.nf-dc{float:left;font-family:'Playfair Display',serif;font-weight:900;font-size:56px;line-height:.72;margin:6px 6px 0 0;color:var(--ink);}
+.nf-pq{border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);padding:9px 8px;margin:14px 0;text-align:center;}
+.nf-pq p{font-family:'Playfair Display',serif;font-style:italic;font-size:13.5px;line-height:1.45;color:var(--ink);}
+.nf-cont{font-family:'Courier Prime',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.14em;opacity:.36;border-top:.5px dashed rgba(12,9,4,.4);padding-top:7px;margin-top:14px;}
+.nf-col-head{font-family:'Courier Prime',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.22em;opacity:.5;border-bottom:1.5px solid var(--ink);padding-bottom:5px;margin-bottom:14px;}
+.nf-link{display:block;text-decoration:none;color:var(--ink);padding:12px 0;border-bottom:.5px solid rgba(12,9,4,.18);transition:opacity .22s;position:relative;}
+.nf-link:last-of-type{border-bottom:none;}
+.nf-link:hover{opacity:.38;}
+.nf-link-label{font-family:'Courier Prime',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.18em;opacity:.36;display:block;margin-bottom:3px;}
+.nf-link-head{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:17px;display:block;line-height:1.1;margin-bottom:4px;}
+.nf-link-sub{font-size:11px;line-height:1.55;opacity:.6;display:block;}
+.nf-link-arrow{font-family:'Courier Prime',monospace;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.8;display:block;margin-top:5px;}
+.nf-stamp{display:inline-block;border:2px solid var(--red);color:var(--red);font-family:'Courier Prime',monospace;font-weight:700;font-size:7px;letter-spacing:.3em;text-transform:uppercase;padding:3px 7px;transform:rotate(-5deg);opacity:.58;margin-top:12px;filter:blur(.3px);}
+.nf-stamp-k{border-color:var(--ink);color:var(--ink);transform:rotate(3.5deg);}
+.nf-strip{display:flex;justify-content:space-between;align-items:center;padding:10px 32px 8px;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+.nf-strip a,.nf-strip span{font-family:'Courier Prime',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:var(--ink);text-decoration:none;opacity:.38;transition:opacity .18s;}
+.nf-strip a:hover{opacity:.9;}
+.nf-bc{letter-spacing:.04em!important;font-size:13px!important;opacity:.12!important;}
+@media(max-width:600px){
+  .nf-grid{grid-template-columns:1fr;padding:20px 20px 22px;}
+  .nf-vd{display:none;}
+  .nf-grid>div:not(.nf-vd){border-bottom:.5px solid rgba(12,9,4,.15);padding-bottom:18px;margin-bottom:18px;}
+  .nf-grid>div:last-child{border-bottom:none;margin-bottom:0;}
+  .nf-mast,.nf-strip{padding-left:20px;padding-right:20px;}
+  .nf-strip{justify-content:center;}
+  .nf-mast-row{flex-wrap:wrap;gap:6px;justify-content:center;}
+}
+</style>
+
+<footer id="footer" class="nf" role="contentinfo">
+  <div class="nf-coffee"></div>
+  <div class="nf-reg" style="top:14px;left:10px"></div>
+  <div class="nf-reg" style="top:14px;right:10px"></div>
+  <div class="nf-reg" style="bottom:14px;left:10px"></div>
+  <div class="nf-reg" style="bottom:14px;right:10px"></div>
+
+  <div class="nf-ticker" aria-label="Latest dispatches">
+    <div class="nf-ticker-track">
+      <span class="nf-tb">&#9733;&thinsp;Latest</span><span class="nf-tt">New vulnerability catalogue released — documentation now publicly available on request</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Update</span><span class="nf-tt">Professional records certified — CV on file, printed copies available on request</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Flash</span><span class="nf-tt">Engineer available for engagement — contact desk open for direct dispatch</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Note</span><span class="nf-tt">All public ledgers current — LinkedIn &amp; Visual Archives fully updated</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Latest</span><span class="nf-tt">New vulnerability catalogue released — documentation now publicly available on request</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Update</span><span class="nf-tt">Professional records certified — CV on file, printed copies available on request</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Flash</span><span class="nf-tt">Engineer available for engagement — contact desk open for direct dispatch</span><span class="nf-ts">&#9632;</span>
+      <span class="nf-tb">&#9733;&thinsp;Note</span><span class="nf-tt">All public ledgers current — LinkedIn &amp; Visual Archives fully updated</span><span class="nf-ts">&#9632;</span>
     </div>
-    <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-theme-dark pb-1"><img src="https://cdn.jsdelivr.net/npm/pixelarticons@1.8.0/svg/code.svg" width="20" height="20" style="opacity:1; display:inline-block; vertical-align:middle; margin-right:6px;">&lt; Logic &amp; AI /&gt; &copy;
-      <span id="copyright-year"></span>
-      <span id="last-active-badge" class="font-mono text-[10px] uppercase tracking-[0.15em] text-theme-accent border border-theme-accent/30 px-3 py-1 hidden md:inline-block ml-4" style="visibility:hidden"></span>
-      <span class="font-mono text-[10px] text-theme-muted hidden md:inline ml-4">Press ` to open terminal</span>
-    </p>
-  </footer>
+  </div>
+
+  <div class="nf-mast">
+    <div class="nf-mast-row">
+      <span class="nf-meta">Vol. IX &mdash; No. 42</span>
+      <span class="nf-special">&#9733;&thinsp;Special Edition&thinsp;&#9733;</span>
+      <span class="nf-meta">Sunday, 31 May 2026</span>
+    </div>
+    <div class="nf-title-block">
+      <span class="nf-title-main">The Daily Ledger</span>
+      <span class="nf-tagline-text">&#10038; &ldquo;All the code that&rsquo;s fit to ship.&rdquo; &#10038;</span>
+    </div>
+    <div class="nf-orn">
+      <div class="nf-orn-line"></div>
+      <span class="nf-orn-g">&#10022; &#10022; &#10022; &#10022; &#10022;</span>
+      <div class="nf-orn-line"></div>
+    </div>
+  </div>
+
+  <div class="nf-grid">
+
+    <div>
+      <div class="nf-kicker-bar">
+        <span>Special Report &mdash; Local Dispatch</span>
+        <span class="nf-live">&#9679;&thinsp;Live</span>
+      </div>
+      <p class="nf-byline-line">By G.K., Staff Correspondent &mdash; <em>Ahmedabad, Gujarat</em></p>
+      <h3 class="nf-hed">Engineer Exposes Local Vulnerabilities; Extensive Catalogue Now Filed for Public Review</h3>
+      <p class="nf-copy">
+        <span class="nf-dc">T</span>oday marks another milestone in the ongoing effort to document and expose fundamental security flaws in modern architecture. The ledger compiled within represents an extensive catalogue of reverse shells, privilege escalations, and cryptographic implementations — assembled with uncommon rigour and dispatched without prejudice.
+      </p>
+      <div class="nf-pq">
+        <p>&ldquo;All records certified. All dispatches answered. All archives open.&rdquo;</p>
+      </div>
+      <p class="nf-copy">Access to professional records and dispatch protocols have been catalogued in the columns to the right for all authorized personnel and interested parties.</p>
+      <p class="nf-cont">&#8213;&thinsp;Continued on Page A4&thinsp;&#8213;</p>
+    </div>
+
+    <div class="nf-vd"></div>
+
+    <div>
+      <div class="nf-col-head">&#9632;&ensp;Official Contacts</div>
+      <a href="mailto:your@email.com" class="nf-link">
+        <span class="nf-link-label">&#9758;&ensp;Electronic Mail</span>
+        <span class="nf-link-head">Direct Dispatch</span>
+        <span class="nf-link-sub">Guaranteed delivery within standard routing intervals. All correspondence welcomed.</span>
+        <span class="nf-link-arrow">Send Wire &#8594;</span>
+      </a>
+      <a href="resume.pdf" target="_blank" class="nf-link">
+        <span class="nf-link-label">&#9758;&ensp;Printed Record</span>
+        <span class="nf-link-head">Official Dossier</span>
+        <span class="nf-link-sub">Curriculum Vitae and full professional history. Available in printed format.</span>
+        <span class="nf-link-arrow">Open File &#8594;</span>
+      </a>
+      <span class="nf-stamp">&#10003;&thinsp;Verified</span>
+    </div>
+
+    <div class="nf-vd"></div>
+
+    <div>
+      <div class="nf-col-head">&#9632;&ensp;Public Ledgers</div>
+      <a href="https://www.linkedin.com/in/YOUR_LINKEDIN_HANDLE" target="_blank" rel="noopener noreferrer" class="nf-link">
+        <span class="nf-link-label">&#9758;&ensp;Professional Network</span>
+        <span class="nf-link-head">LinkedIn Bureau</span>
+        <span class="nf-link-sub">Endorsements, employment history and enterprise connections on public file.</span>
+        <span class="nf-link-arrow">Enter Exchange &#8594;</span>
+      </a>
+      <a href="https://instagram.com/YOUR_INSTA" target="_blank" rel="noopener noreferrer" class="nf-link">
+        <span class="nf-link-label">&#9758;&ensp;Visual Dispatch</span>
+        <span class="nf-link-head">Visual Archives</span>
+        <span class="nf-link-sub">Photographic evidence and lifestyle documentation. Broadcasted publicly.</span>
+        <span class="nf-link-arrow">View Gallery &#8594;</span>
+      </a>
+      <span class="nf-stamp nf-stamp-k">Public Record</span>
+    </div>
+
+  </div>
+
+  <div class="nf-strip">
+    <a href="index.html">&larr; Return to Base Logic</a>
+    <span class="nf-bc">||| | || ||| || ||| | ||| |||| | ||</span>
+    <span>&copy; 2026 GK &mdash; Printed in Gujarat</span>
+  </div>
+
+</footer>
+
 
   <!-- Project Details Panel Overlay -->
   <div id="project-overlay" class="fixed inset-0 z-[500] pointer-events-none" aria-hidden="true">

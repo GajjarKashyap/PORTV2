@@ -182,19 +182,71 @@ window.addEventListener("load", () => {
         onComplete: () => lenis.start()
     });
 
-    if (preloader && preloaderText && preloaderCircle) {
-        // Calculate max scale to cover the viewport plus a safe margin
-        const maxDim = Math.max(window.innerWidth, window.innerHeight);
-        const targetScale = (maxDim * 2.5) / 10; // Initial circle size is 10px
+    const STAGES = [
+      {at:22, text:'Inking rollers...'},
+      {at:52, text:'Running press...'},
+      {at:76, text:'Cutting edition...'},
+      {at:95, text:'Ready to print.'}
+    ];
 
-        tl.to(preloaderText, { opacity: 1, duration: 0.8, ease: "power2.out" })
-            .to(preloaderText, { scale: 1.05, duration: 0.8, ease: "none" }) // subtle text tension
-            .to(preloaderCircle, { opacity: 1, duration: 0.01 }, "-=0.3") // Make circle visible
-            .to(preloaderCircle, { scale: targetScale, duration: 0.9, ease: "power4.inOut" }, "-=0.3") // Expand circle
-            .to(preloaderText, { color: "#F5F0EB", duration: 0.1 }, "-=0.6") // Invert text color over dark circle
-            .to(preloaderText, { opacity: 0, duration: 0.4, y: -10, ease: "power2.in" }, "-=0.1") // Text fades out
-            .to(preloader, { opacity: 0, duration: 1, ease: "power3.inOut" }, "-=0.2") // Whole preloader fades revealing #hero
-            .set(preloader, { display: "none" }); // hide from DOM
+    const premiumLoader = document.getElementById('premium-loader');
+    if (premiumLoader) {
+        gsap.set('#premium-loader', {yPercent:0, display:'flex'});
+        gsap.set('#ld-flash', {opacity:0});
+        gsap.set('.ld-reg', {opacity:0, scale:0});
+        gsap.set('#ld-top', {opacity:0});
+        gsap.set('#ld-kicker', {opacity:0, x:-22});
+        gsap.set('#ld-title', {opacity:0, y:28});
+        gsap.set('#ld-ornament', {opacity:0});
+        gsap.set('#ld-orn-l', {scaleX:0});
+        gsap.set('#ld-orn-r', {scaleX:0});
+        gsap.set('#ld-tagline', {opacity:0});
+        gsap.set('#ld-ticker-row', {opacity:0});
+        gsap.set('#ld-info-row', {opacity:0});
+        gsap.set('#ld-bar-wrap', {opacity:0});
+        gsap.set('#ld-bar', {width:'0%'});
+        gsap.set('#ld-counter', {innerText:'0%', color:'#EBE4CF'});
+        gsap.set('#ld-status', {innerText:'Composing type...', color:'rgba(235,228,207,0.35)'});
+
+        const prog = {value:0};
+
+        tl.to('.ld-reg',       {opacity:.15, scale:1, duration:.4, stagger:.07, ease:'back.out(2.2)'}, 0)
+          .to('#ld-top',       {opacity:1,           duration:.5,  ease:'power2.out'}, .1)
+          .to('#ld-kicker',    {opacity:1, x:0,      duration:.55, ease:'power3.out'}, .32)
+          .to('#ld-title',     {opacity:1, y:0,      duration:.85, ease:'power3.out'}, .65)
+          .to('#ld-ornament',  {opacity:1,           duration:.3},  1.1)
+          .to('#ld-orn-l',     {scaleX:1,            duration:.6,  ease:'power2.inOut'}, 1.15)
+          .to('#ld-orn-r',     {scaleX:1,            duration:.6,  ease:'power2.inOut'}, 1.15)
+          .to('#ld-tagline',   {opacity:1,           duration:.45, ease:'power2.out'}, 1.4)
+          .to('#ld-ticker-row',{opacity:1,           duration:.35}, 1.3)
+          .to(['#ld-info-row','#ld-bar-wrap'], {opacity:1, duration:.35}, 1.3)
+          .to(prog, {
+            value:100, duration:2.55, ease:'power1.inOut',
+            onUpdate() {
+              const v = Math.floor(prog.value);
+              const cntr = document.getElementById('ld-counter');
+              const bar = document.getElementById('ld-bar');
+              const stat = document.getElementById('ld-status');
+              if(cntr) cntr.innerText = v + '%';
+              if(bar) bar.style.width = prog.value + '%';
+              if(stat) {
+                for (const s of STAGES) {
+                  if (prog.value >= s.at) stat.innerText = s.text;
+                }
+              }
+            }
+          }, 1.3)
+          .call(() => {
+            const stat = document.getElementById('ld-status');
+            if(stat) stat.innerText = 'Edition ready.';
+            gsap.to('#ld-status', {color:'#8E1010', duration:.2});
+            gsap.to('#ld-bar', {boxShadow:'0 0 8px #8E1010', duration:.25});
+          }, null, 3.85)
+          .to('#ld-bar',  {opacity:.35, duration:.09, yoyo:true, repeat:5, ease:'none'}, 4.0)
+          .to('#ld-flash',{opacity:.88, duration:.07, ease:'power3.in'},  4.4)
+          .to('#ld-flash',{opacity:0,   duration:.18, ease:'power2.out'}, 4.47)
+          .to('#premium-loader', {yPercent:-100, duration:1.15, ease:'expo.inOut'}, 4.47)
+          .set('#premium-loader', {display: 'none'});
     }
 
     // 1. Initial Navbar entrance AFTER preloader
