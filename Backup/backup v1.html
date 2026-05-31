@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gajjar Kashyap</title>
+   <link rel="icon" type="image/gif/png" href="Untitled.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,600;0,700;1,700&display=swap"
+    rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            theme: {
+              bg: '#F5F0EB',
+              dark: '#1A1A1A',
+              text: '#1A1A1A',
+              muted: '#6B6B6B',
+              light: '#F5F0EB',
+              accent: '#C8A97E',
+              surface: '#FFFFFF',
+              border: '#E0D9D0',
+              code: '#F0EBE3'
+            }
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- new style -->
+  <style>
+	/* Fixed: Exact Theme Colors & Smaller Edge Gradients */
+.marquee-container {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  height: 2.5em;
+  font-size: clamp(40px, 6vw, 80px);
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  /* Shrunk the smooth fade on the far edges down to 3% */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+}
+
+.marquee_text {
+  position: absolute;
+  white-space: nowrap;
+  animation: marqueeSweep 18s infinite linear;
+  will-change: transform;
+}
+
+@keyframes marqueeSweep {
+  from { transform: translateX(20%); }
+  to { transform: translateX(-80%); }
+}
+
+.marquee_blur {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  /* Turns invisible to let your #F5F0EB section background show through perfectly */
+  background-color: white; 
+  /* Shrunk the "wall" width down to 2% and applied your #1A1A1A color */
+  background-image:
+    linear-gradient(to right, #1A1A1A 0%, transparent 2%),
+    linear-gradient(to left, #1A1A1A 0%, transparent 2%);
+  filter: contrast(35);
+  mix-blend-mode: multiply; 
+  z-index: 1;
+}
+
+.marquee_blur .marquee_text {
+  color: #1A1A1A; /* Applied your exact text color */
+  filter: blur(0.06em); /* Tightened the blur slightly for a cleaner melt */
+}
+
+.marquee_clear {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.marquee_clear .marquee_text {
+  color: #1A1A1A; /* Applied your exact text color */
+}
+</style>
+  <style type="text/tailwindcss">
+    @layer base {
+            body {
+                @apply bg-theme-bg text-theme-text font-body antialiased;
+            }
+        }
+        @media (pointer: fine) {
+            body, a, button {
+                cursor: none !important;
+            }
+        }
+        @layer utilities {
+            .fade-in-section {
+                @apply opacity-0 translate-y-12;
+                transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform;
+            }
+            .fade-in-section.is-visible {
+                @apply opacity-100 translate-y-0;
+            }
+            .section-padding {
+                @apply py-[96px] px-6 lg:px-[7%];
+            }
+            .nav-link {
+                @apply font-body text-[13px] uppercase tracking-[0.12em] text-theme-text relative py-2;
+            }
+            .nav-link::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-full h-[1px] bg-theme-text scale-x-0 origin-right transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)];
+            }
+            .nav-link:hover::after {
+                @apply scale-x-100 origin-left;
+            }
+            .section-label {
+                @apply font-body text-[11px] uppercase tracking-[0.2em] text-theme-muted block mb-6;
+            }
+            .skill-pill {
+                @apply bg-theme-code text-theme-muted font-body text-xs py-1.5 px-3.5 rounded-full inline-block whitespace-nowrap;
+            }
+            .btn-outline {
+                @apply inline-block bg-transparent border border-theme-text text-theme-text py-3 px-7 font-body text-xs uppercase tracking-[0.1em] transition-colors duration-300 hover:bg-theme-text hover:text-theme-light;
+            }
+        }
+    </style>
+	<style>
+		/* Philosophy stretch effect */
+			#philosophy-text span {
+			display: inline-block;
+		transform-origin: bottom center;
+		transition: transform 0.35s cubic-bezier(.25,.46,.45,.94);
+		}
+
+		#philosophy-text span:hover {
+			transform: scale(0.88, 1.35);
+		}
+
+		/* first neighbors */
+		#philosophy-text span:hover + span,
+		#philosophy-text span:has(+ span:hover) {
+		transform: scale(0.94, 1.18);
+		}
+
+		/* second neighbors */
+		#philosophy-text span:hover + span + span,
+		#philosophy-text span:has(+ span + span:hover) {
+		transform: scale(0.97, 1.08);
+		}
+	</style>
+</head>
+
+<body class="selection:bg-theme-accent selection:text-white overflow-x-hidden">
+
+  <!-- Custom Cursor -->
+  <div id="cursor-dot"
+    class="fixed w-2 h-2 bg-white rounded-full pointer-events-none top-0 left-0 z-[100] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block opacity-0 transition-opacity duration-300">
+  </div>
+  <div id="cursor-outline"
+    class="fixed w-10 h-10 border-[1px] border-white rounded-full pointer-events-none top-0 left-0 z-[99] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden md:block opacity-0 transition-[opacity,width,height,background-color] duration-300 ease-out">
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar"
+    class="fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] py-8 px-6 lg:px-[7%] -translate-y-full flex justify-between items-center mix-blend-difference text-white">
+    <a href="#top"
+      class="magnetic inline-block font-display text-2xl font-bold tracking-tighter relative z-[60] mix-blend-exclusion hover:italic transition-all p-4 -m-4">GK.</a>
+
+    <!-- Minimal Menu Button (Always visible instead of links) -->
+    <button id="hamburger"
+      class="magnetic group flex items-center gap-3 z-[60] focus:outline-none mix-blend-exclusion p-4 -m-4">
+      <span class="font-body text-[11px] uppercase tracking-[0.2em] hidden sm:block">Menu</span>
+      <div class="flex flex-col gap-[6px] w-6">
+        <span class="w-full h-[1px] bg-white transition-transform duration-500 origin-center"></span>
+        <span class="w-full h-[1px] bg-white transition-transform duration-500 origin-center"></span>
+      </div>
+    </button>
+
+    <!-- Fullscreen Elegant Menu Overlay -->
+    <div id="mobile-menu"
+      class="fixed inset-0 bg-theme-dark text-white flex flex-col justify-center items-center gap-8 -translate-y-full transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] z-[55] hidden">
+      <a href="#about"
+        class="font-display text-[clamp(40px,5vw,72px)] italic hover:text-theme-accent transition-colors duration-500 nav-menu-link">> About</a>
+      <a href="#projects"
+        class="font-display text-[clamp(40px,5vw,72px)] italic hover:text-theme-accent transition-colors duration-500 nav-menu-link">> Projects</a>
+      <a href="#security"
+        class="font-display text-[clamp(40px,5vw,72px)] italic hover:text-theme-accent transition-colors duration-500 nav-menu-link">> Security</a>
+      <a href="#contact"
+        class="font-display text-[clamp(40px,5vw,72px)] italic hover:text-theme-accent transition-colors duration-500 nav-menu-link">> Contact</a>
+
+      <div class="absolute bottom-10 flex gap-8 font-body text-[11px] uppercase tracking-[0.2em] text-theme-muted">
+        <a href="#" class="hover:text-white transition-colors">Twitter</a>
+        <a href="#" class="hover:text-white transition-colors">GitHub</a>
+        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <div id="water-ripple-wrapper">
+      <!-- Hero Section -->
+      <section class="relative min-h-[800px] h-screen flex flex-col justify-center px-6 lg:px-[7%] pt-20">
+        <div class="w-full flex justify-between items-end mb-16 fade-in-section is-visible">
+          <!-- Made text slightly smaller and increased leading so 'g' is never cut off -->
+          <h1
+            class="text-hover-interact font-display font-medium text-[clamp(48px,8vw,130px)] leading-[1.05] tracking-[-0.03em] transition-all duration-500 hover:text-outline relative z-10 w-full inline-block pb-2">
+            My Build are<br><span class="italic text-theme-muted">Alwyas-Next</span><br>Level.
+          </h1>
+
+          <div class="hidden lg:block w-[1px] h-[120px] bg-theme-text/20 relative">
+            <div
+              class="absolute bottom-[-40px] left-1/2 -translate-x-1/2 font-body text-[10px] uppercase tracking-[0.2em] [writing-mode:vertical-rl]">
+              Scroll</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end w-full fade-in-section is-visible"
+          style="transition-delay: 200ms;">
+          <p class="text-[clamp(16px,2vw,22px)] text-theme-text font-serif italic max-w-sm">
+            Logic<br>Tools<br>Mess
+          </p>
+
+          <div class="bg-[#EBE5DF] p-6 rounded-sm w-full lg:max-w-[420px] shadow-inner lg:ml-auto">
+            <pre class="font-mono text-[13px] leading-[1.8] text-theme-text whitespace-pre-wrap">
+{
+  "name": "Gajjar Kashyap",
+  "languages": ["Python", "JS", "C++","c"],
+  "tools": ["Flask", "Firebase","Consol","IDEs","Stitch","Figma",]
+  "status": "Always Think ?"
+}
+</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="section-padding py-[160px]">
+        <div
+          class="max-w-[1600px] mx-auto border-t border-theme-border pt-10 grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-32">
+          <div class="fade-in-section">
+            <span class="font-body text-[11px] uppercase tracking-[0.3em] text-theme-muted">01 &mdash; About</span>
+          </div>
+
+          <div class="fade-in-section" style="transition-delay: 150ms;">
+            <h2
+              class="text-hover-interact font-display font-normal text-[clamp(32px,4vw,56px)] leading-[1.2] mb-12 indent-[10%] relative z-10">
+               I am Gajjar Kashayp.   Use AI as a power tool — not a shortcut — to build <span
+                class="italic">real
+                software</span>. My brain drives the logic, the architecture, the vision. AI accelerates the execution.
+              I'm constantly learning, constantly shipping/Growinig.
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="section-padding max-w-[1600px] mx-auto">
+        <div
+          class="border-t border-theme-border pt-10 mb-20 flex flex-col lg:flex-row justify-between lg:items-end gap-10 fade-in-section">
+          <div>
+            <span class="font-body text-[11px] uppercase tracking-[0.3em] text-theme-muted block mb-6">02 &mdash;
+              Projects</span>
+            <h2 class="font-display font-normal text-[clamp(48px,6vw,96px)] leading-[1] tracking-tighter">
+              Selected<br><span class="italic text-theme-muted">Works.</span></h2>
+          </div>
+          <p class="text-theme-text font-serif italic text-[18px] max-w-xs">All Python. All solving real-world problems.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-20">
+          <!-- Project 1 -->
+          <div class="fade-in-section flex flex-col group border-t border-theme-border/50 pt-6">
+            <div class="flex justify-between items-baseline mb-6">
+              <h3
+                class="font-display text-[clamp(28px,3vw,40px)] font-normal text-theme-text group-hover:italic transition-all duration-500">
+                LAN-FILE-TUNNEL</h3>
+              <span class="font-mono text-[11px] text-theme-muted">01</span>
+            </div>
+            <p class="text-theme-muted font-body text-[15px] mb-8 leading-[1.8] flex-grow pr-10">Secure Python/Flask
+              tool
+              to share files across local network via browser drag-and-drop.</p>
+            <a href="https://github.com/GajjarKashyap/LAN-FILE-TUNNEL" target="_blank"
+              class="font-body text-[11px] uppercase tracking-[0.2em] text-theme-text hover:text-theme-accent transition-colors border-b border-theme-text hover:border-theme-accent pb-1 w-max">View
+              Source</a>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="fade-in-section flex flex-col group border-t border-theme-border/50 pt-6 md:mt-24">
+            <div class="flex justify-between items-baseline mb-6">
+              <h3
+                class="font-display text-[clamp(28px,3vw,40px)] font-normal text-theme-text group-hover:italic transition-all duration-500">
+                Vocalizer</h3>
+              <span class="font-mono text-[11px] text-theme-muted">02</span>
+            </div>
+            <p class="text-theme-muted font-body text-[15px] mb-8 leading-[1.8] flex-grow pr-10">Audio-manipulation web
+              app for signal processing and file conversion.</p>
+            <a href="https://github.com/GajjarKashyap/Audio" target="_blank"
+              class="font-body text-[11px] uppercase tracking-[0.2em] text-theme-text hover:text-theme-accent transition-colors border-b border-theme-text hover:border-theme-accent pb-1 w-max">View
+              Source</a>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="fade-in-section flex flex-col group border-t border-theme-border/50 pt-6">
+            <div class="flex justify-between items-baseline mb-6">
+              <h3
+                class="font-display text-[clamp(28px,3vw,40px)] font-normal text-theme-text group-hover:italic transition-all duration-500">
+                Global-Clip-Board</h3>
+              <span class="font-mono text-[11px] text-theme-muted">03</span>
+            </div>
+            <p class="text-theme-muted font-body text-[15px] mb-8 leading-[1.8] flex-grow pr-10">Real-time
+              cross-platform
+              clipboard sync over shared server.</p>
+            <a href="https://github.com/GajjarKashyap/GOBAL-CLIP-BORAD" target="_blank"
+              class="font-body text-[11px] uppercase tracking-[0.2em] text-theme-text hover:text-theme-accent transition-colors border-b border-theme-text hover:border-theme-accent pb-1 w-max">View
+              Source</a>
+          </div>
+
+          <!-- Project 4 -->
+          <div
+            class="fade-in-section flex flex-col group border-t border-theme-border/50 pt-6 md:mt-24 opacity-40 grayscale">
+            <div class="flex justify-between items-baseline mb-6">
+              <h3 class="font-display text-[clamp(28px,3vw,40px)] font-normal text-theme-text">In Progress</h3>
+              <span class="font-mono text-[11px] text-theme-muted">04</span>
+            </div>
+            <p class="text-theme-muted font-body text-[15px] mb-8 leading-[1.8] flex-grow pr-10">Building the next piece
+              of real software. Stay tuned.</p>
+            <span class="font-body text-[11px] uppercase tracking-[0.2em] text-theme-muted pb-1 w-max">Coming
+              Soon</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── SECURITY ───────────────────────────────────────────── -->
+    <section id="security" class="py-[140px] px-6 lg:px-[7%] relative overflow-hidden"
+      style="background:#1A1A1A; transition: background 0.5s ease;">
+      <!-- Grid texture -->
+      <div class="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style="background-image: repeating-linear-gradient(0deg,#C8A97E 0px,#C8A97E 1px,transparent 1px,transparent 48px),repeating-linear-gradient(90deg,#C8A97E 0px,#C8A97E 1px,transparent 1px,transparent 48px);">
+      </div>
+
+      <div class="max-w-[1600px] mx-auto relative z-10">
+
+        <!-- Header -->
+        <div
+          class="fade-in-section is-visible border-t border-white/10 pt-16 mb-16 flex flex-col lg:flex-row justify-between lg:items-end gap-10">
+          <div>
+            <span class="font-body text-[11px] tracking-[0.3em] uppercase mb-6 text-theme-accent block">
+              <span style="font-size:7px; margin-right:8px; opacity:0.6;">◆</span>03 &mdash; Security Mindset
+            </span>
+            <h2 class="font-display font-normal text-[clamp(36px,5vw,68px)] leading-[1.1] text-white tracking-tighter">
+              Breaking things<br><span class="italic text-theme-accent">to understand them.</span>
+            </h2>
+          </div>
+          <p class="font-body text-[15px] leading-[1.85] text-white/40 max-w-[340px]">
+            I don't just study security — I build offensive tools, understand how attacks work, and write the scripts
+            myself. Kali Linux is my daily driver.
+          </p>
+        </div>
+
+        <!-- Tools — reduced density vs Projects -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-white/[0.06] fade-in-section is-visible"
+          style="transition-delay:100ms;">
+
+          <div class="p-8 group hover:bg-white/[0.03] transition-colors duration-500" style="background:#1A1A1A;">
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-theme-accent">Tool 01</span>
+              <span class="font-mono text-[10px] text-white/20">Python</span>
+            </div>
+            <h3
+              class="font-display text-[22px] font-normal text-white mb-3 group-hover:italic transition-all duration-400">
+              WiFi Brute-Force
+            </h3>
+            <p class="font-body text-[13px] leading-[1.85] text-white/35 mb-6">
+              Systematically tests passwords against WPA/WPA2 networks. Built to understand how weak passphrases expose
+              wireless infrastructure.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">Kali
+                Linux</span>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">Python</span>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">WPA/WPA2</span>
+            </div>
+          </div>
+
+          <div class="p-8 group hover:bg-white/[0.03] transition-colors duration-500" style="background:#1A1A1A;">
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-theme-accent">Tool 02</span>
+              <span class="font-mono text-[10px] text-white/20">Python</span>
+            </div>
+            <h3
+              class="font-display text-[22px] font-normal text-white mb-3 group-hover:italic transition-all duration-400">
+              File Password Cracker
+            </h3>
+            <p class="font-body text-[13px] leading-[1.85] text-white/35 mb-6">
+              Modified brute-force script adapted for password-protected files. Iterates candidate passwords to unlock
+              encrypted archives.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">Python</span>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">Brute-Force</span>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">File
+                Security</span>
+            </div>
+          </div>
+
+          <div class="p-8 group hover:bg-white/[0.03] transition-colors duration-500" style="background:#1A1A1A;">
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-theme-accent">Tool 03</span>
+              <span class="font-mono text-[10px] text-white/20">Python</span>
+            </div>
+            <h3
+              class="font-display text-[22px] font-normal text-white mb-3 group-hover:italic transition-all duration-400">
+              AES-256 Encryptor
+            </h3>
+            <p class="font-body text-[13px] leading-[1.85] text-white/35 mb-6">
+              Custom message encryptor using 256-bit AES. Type any message, encrypt with a key, receive unreadable
+              ciphertext — with full decryption support.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">AES-256</span>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">Python</span>
+              <span
+                class="font-mono text-[9px] uppercase tracking-widest border border-white/10 text-white/25 px-2.5 py-1">Cryptography</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer strip -->
+        <div
+          class="fade-in-section is-visible mt-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-t border-white/10 pt-8"
+          style="transition-delay:200ms;">
+          <p class="font-mono text-[11px] leading-[1.8] text-white/25 max-w-md">
+            All tools built for educational purposes and personal research.
+          </p>
+          <span
+            class="font-mono text-[10px] uppercase tracking-[0.2em] border border-theme-accent/40 py-3 px-6 text-theme-accent whitespace-nowrap cursor-default hover:bg-theme-accent hover:text-theme-dark transition-colors duration-500">
+            ⚡ Kali Linux User
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+<!-- Philosophy Section -->
+<section class="py-[160px] px-6 lg:px-[7%] text-center bg-theme-bg border-t border-theme-border/30 overflow-hidden">
+  <div class="fade-in-section max-w-[1200px] mx-auto">
+
+    <blockquote id="philosophy-text"
+    class="font-display text-[clamp(48px,8vw,96px)] italic font-light leading-[1.1] text-theme-text mb-10 tracking-tighter">
+      "I don't wait to be ready <br>
+      I build. I learn. I ship."
+    </blockquote>
+
+    <div class="font-body text-[12px] uppercase tracking-[0.3em] text-theme-muted mb-12">
+      The Philosophy
+    </div>
+
+    <p class="font-body text-[16px] md:text-[18px] leading-[1.8] text-theme-muted max-w-[750px] mx-auto mb-20">
+      True understanding doesn't come from just reading documentation—it comes from getting your hands dirty. Whether I'm scripting an automation tool, digging into network security, or designing digital architecture, my approach is relentlessly hands-on. Theory is just the blueprint; breaking things apart, executing the logic, and engineering them back together is where the real growth happens. I build to solve problems, and in the process, I level up.
+    </p>
+  </div>
+
+  <div class="fade-in-section w-full max-w-[100vw] relative pt-10">
+    <div class="marquee-container">
+      
+      <div class="marquee_blur" aria-hidden="true">
+        <p class="marquee_text italic">&mdash; Logic &mdash; Tools &mdash; Mess &mdash; Security &mdash; Vision &mdash; Execution &mdash; Logic &mdash; Tools &mdash; Mess &mdash;</p>
+      </div>
+
+      <div class="marquee_clear">
+        <p class="marquee_text italic">&mdash; Logic &mdash; Tools &mdash; Mess &mdash; Security &mdash; Vision &mdash; Execution &mdash; Logic &mdash; Tools &mdash; Mess &mdash;</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding py-[160px] border-t border-theme-border bg-[#EBE5DF]/50">
+      <div class="fade-in-section max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div>
+          <span class="font-body text-[11px] uppercase tracking-[0.3em] text-theme-muted block mb-6">04 &mdash;
+            Contact</span>
+          <h2 class="font-display font-normal text-[clamp(48px,7vw,100px)] leading-[0.9] tracking-tighter mb-8">
+            Let's Build<br><span class="italic text-theme-muted">Something.</span>
+          </h2>
+          <p class="text-theme-text font-serif italic text-[20px] max-w-sm">
+            Open to collaborations, freelance projects, and interesting conversations.
+          </p>
+        </div>
+
+        <div class="flex flex-col justify-end">
+          <a href="mailto:kashayapgajjar71@gmail.com"
+            class="magnetic group flex justify-between items-end py-8 border-b border-theme-border hover:border-theme-text transition-colors duration-500">
+            <span
+              class="font-display text-[clamp(24px,3vw,36px)] font-normal text-theme-text group-hover:italic transition-all duration-500 pointer-events-none">Email</span>
+            <span
+              class="font-body text-[13px] text-theme-muted group-hover:text-theme-text transition-colors duration-500 pointer-events-none">kashayapgajjar71@gmail.com</span>
+          </a>
+
+          <a href="https://github.com/GajjarKashyap" target="_blank" rel="noopener noreferrer"
+            class="magnetic group flex justify-between items-end py-8 border-b border-theme-border hover:border-theme-text transition-colors duration-500">
+            <span
+              class="font-display text-[clamp(24px,3vw,36px)] font-normal text-theme-text group-hover:italic transition-all duration-500 pointer-events-none">GitHub</span>
+            <span
+              class="font-body text-[13px] text-theme-muted group-hover:text-theme-text transition-colors duration-500 pb-1 pointer-events-none">github.com/GajjarKashyap</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-8 px-6 lg:px-[7%] flex justify-between items-center bg-theme-bg border-t border-theme-border/50">
+    <div class="flex flex-col md:flex-row gap-4 md:items-center">
+      <a href="#top"
+        class="font-display text-lg font-bold tracking-tighter text-theme-text hover:italic transition-all">GK.</a>
+      <span id="live-clock"
+        class="font-mono text-[11px] uppercase tracking-[0.2em] text-theme-muted border-l border-theme-border pl-4 hidden md:block">00:00:00
+        AM</span>
+    </div>
+    <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-theme-muted pb-1">&lt; Logic &amp; AI /&gt; &copy;
+      2025</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const el = document.getElementById("philosophy-text");
+  if (!el) return;
+
+  function wrapText(node) {
+    // Process only text nodes
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      const frag = document.createDocumentFragment();
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+
+        // keep spaces and new lines normal
+        if (char.trim() === "") {
+          frag.appendChild(document.createTextNode(char));
+        } else {
+          const span = document.createElement("span");
+          span.textContent = char;
+          frag.appendChild(span);
+        }
+      }
+
+      node.replaceWith(frag);
+    }
+
+    // Process all children (important fix)
+    else {
+      const children = Array.from(node.childNodes);
+      children.forEach(child => wrapText(child));
+    }
+  }
+
+  wrapText(el);
+});
+</script>
+</body>
+
+</html>

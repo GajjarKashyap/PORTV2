@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GK // Security Research</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,600;0,700;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 1. VARIABLES - Your Color Palette */
+    :root {
+      --bg: #1A1A1A;
+      --text: #F5F0EB;
+      --muted: #6B6B6B;
+      --accent: #C8A97E;
+      --code: #2A2A2A;
+      --border: #333333;
+      --f-display: 'Playfair Display', serif;
+      --f-body: 'Inter', sans-serif;
+      --f-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* 2. RESET & BASE - Logic for the whole page */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { 
+      background: var(--bg); 
+      color: var(--text); 
+      font-family: var(--f-body); 
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 3. SHORT CLASSES (sp, hx, hs, lb, tb, ac, mt) */
+    .sp { padding: 80px 7%; } /* Global Spacing */
+    .hx { font-family: var(--f-display); font-size: clamp(40px, 8vw, 90px); line-height: 1.1; } /* Hero Header */
+    .hs { font-family: var(--f-display); font-size: 2.5rem; margin-bottom: 1.5rem; } /* Sub Header */
+    .lb { font-family: var(--f-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: var(--accent); display: block; margin-bottom: 10px; } /* Label */
+    .tb { background: var(--code); border: 1px solid var(--border); padding: 25px; font-family: var(--f-mono); font-size: 13px; color: rgba(245,240,235,0.8); margin: 30px 0; line-height: 1.7; overflow-x: auto; } /* Terminal Box */
+    .ac { color: var(--accent); } /* Accent Color */
+    .mt { color: var(--muted); line-height: 1.8; } /* Muted Color */
+    .it { font-style: italic; } /* Italic */
+
+    /* 4. NAVIGATION - Top bar */
+    nav.top-nav { position: fixed; top: 0; width: 100%; padding: 30px 7%; display: flex; justify-content: space-between; z-index: 100; mix-blend-mode: difference; }
+    .logo { font-family: var(--f-display); font-size: 1.5rem; font-weight: bold; text-decoration: none; color: white; }
+    .back-btn { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+
+    /* 5. MAIN CONTENT LAYOUT - The fix for the sidebar */
+    .content-wrapper { 
+      display: flex; 
+      flex-direction: column; 
+      max-width: 1400px; 
+      margin: 0 auto; 
+    }
+
+    .main-body { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 60px; 
+      border-top: 1px solid var(--border);
+    }
+
+    /* SIDEBAR Logic */
+    aside.sidebar { 
+      flex: 0 0 250px; /* Fixed width: 250px */
+      padding-top: 60px;
+    }
+
+    .sticky-nav { position: sticky; top: 120px; display: flex; flex-direction: column; gap: 20px; }
+    .side-link { font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: 0.3s; }
+    .side-link:hover { color: var(--accent); padding-left: 5px; }
+    .side-link.active { color: var(--accent); }
+
+    /* ARTICLES Logic */
+    .articles { 
+      flex: 1; /* Takes up all remaining space */
+      max-width: 800px;
+      padding-top: 60px;
+    }
+
+    article { margin-bottom: 120px; }
+
+    /* Responsive fix for mobile */
+    @media (max-width: 1024px) {
+      .main-body { flex-direction: column; }
+      aside.sidebar { flex: 1; padding-top: 20px; }
+      .sticky-nav { position: relative; top: 0; flex-direction: row; flex-wrap: wrap; }
+    }
+
+    #n1 {
+      position: relative; /* needed for ::after positioning */
+      color: var(--text);
+      height: fit-content; 
+      align-self: center;
+      text-decoration: none;
+      transition: color 0.3s ease, text-decoration 0.3s ease, transform 0.5s ease;
+    }
+
+    #n1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0%;
+      height: 2px;
+      background: var(--accent); 
+      transition: width 0.6s ease-in-out;  
+      }
+
+    #n1:hover::after {
+      width: 100%;
+      color : var(--accent);
+    }
+
+    .lb-big { 
+      font-family: var(--f-mono); 
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      display: block; 
+      margin-bottom: 10px; 
+    } 
+
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="top-nav">
+      <a href="index.html" class="logo">GK.</a>
+      <a href="index.html" class="back-btn">Back</a>
+    </nav>
+
+    <main class="content-wrapper">
+
+      <section class="sp" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center;">
+        <span class="lb">Kali L inux Daily Driver</span>
+        <h1 class="hx">The Offensive<br><span class="it ac">Library.</span></h1>
+      </section>
+
+      <section class="sp">
+        <div class="main-body">
+
+          <aside class="sidebar">
+            <div class="sticky-nav">
+              <a href="#network" class="side-link active">01. Network</a>
+              <a href="#AES-256" class="side-link">02. Aes-256</a>
+              <a href="#Ports" class="side-link">03. Ports</a>
+            </div>
+          </aside>
+
+          <div class="articles">
+
+            <article id="network">
+              <span class="lb">Module 01</span>
+              <h2 class="hs">Network Auditing</h2>
+              <p class="mt" style="font-size: 1.1rem;">
+                As a daily **Kali Linux** user, understanding the handshake process is the first step in auditing wireless infrastructure. This section covers the logic of protocol defense.
+              </p>
+
+              <div class="tb">
+                <span class="ac">// Check Wireless Interfaces</span><br>
+                $ iw dev<br><br>
+                <span class="ac">// Start Monitor Mode</span><br>
+                $ sudo airmon-ng start wlan0
+              </div>
+
+              <p class="mt">
+                This approach reflects your interest in ethical hacking and cybersecurity tools.
+              </p>
+            </article>
+
+            <article id="AES-256">
+              <span class="lb">Module 02</span>
+              <h2 class="hs">AES-256 Logic</h2>
+              <p class="mt">
+                Implementing encryption in **Python** scripts allows for secure message handling. This module breaks down the implementation of 256-bit AES encryption.
+              </p>
+              <div class="tb">
+               <span class="ac"># Example Python Snippet</span><br>
+               from Crypto.Cipher import AES<br>
+               cipher = AES.new(key, AES.MODE_EAX)
+             </div>
+           </article>
+
+           <article id="Ports">
+              <span class="lb">Module 03</span>
+              <h2 class="hs">Ports</h2>
+              <p class="mt">
+                A port is a number that identifies a specific process or service on a computer.<br>
+                They work alongside IP addresses:
+              </p>
+              <div class="tb">
+               <span class="ac"># Type Of Ports</span><br>
+               Well-known ports (0–1023) <br>
+                Reserved for common services. Examples:<br>
+                80 → HTTP (web traffic)<br>
+                443 → HTTPS (secure web traffic)<br>
+                22 → SSH (secure shell)<br>
+                25 → SMTP (email sending)
+             </div>
+                <span class="lb-big">⚙️ How Ports Work</span>
+                <div class="tb">
+                <ul>
+                  <li><p>When you visit a website, your browser connects to the server’s IP address on port 443 (HTTPS)</p></li>
+                  <li><p>The server responds back to your computer’s ephemeral port (a temporary one in the dynamic range).</p></li>
+                  <li><p>This way, multiple applications can share the same network connection without confusion.</p></li>
+                </ul>
+             </div>
+           </article>
+
+           <!-- Certification section-->
+
+           <section class="sp" style="border-top: 1px solid var(--border);">
+            <span class="lb">Credentials // Verification</span>
+            <h2 class="hs">Professional <span class="it ac">Certifications.</span></h2>
+
+            <div style="margin-top: 40px;">
+              <div style="display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border);">
+                <div>
+                  <span class="lb" style="margin:0; font-size: 9px;">Entry_01</span>
+                  <p class="it" style="font-size: 1.2rem;">IBM Full Stack Developer</p>
+                </div>
+                <a href="#" id="n1">Verify</a>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border);">
+                <div>
+                  <span class="lb" style="margin:0; font-size: 9px;">Entry_02</span>
+                  <p class="it" style="font-size: 1.2rem;">IBM Front-End Developer</p>
+                </div>
+                <a href="#" id="n1">Verify</a>
+              </div>
+
+
+
+              <div class="tb mt" style="text-align: center; border-style: dashed;">
+                <span class="ac">// 04 additional IBM certifications indexed in database.</span>
+              </div>
+            </div>
+          </section>
+
+        </div> </div> </section>
+
+      </main>
+
+      <footer class="sp" style="border-top: 1px solid var(--border); text-align: center;">
+        <p class="lb mt" style="margin:0;">&copy; 2026 GK // Educational Purposes Only</p>
+      </footer>
+
+    </body>
+    </html>
