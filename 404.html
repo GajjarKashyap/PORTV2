@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Gajjar Kashyap">
+  <meta name="theme-color" content="#F5F0EB">
+  
+  <title>404 — Page Not Found</title>
+  
+  <link rel="icon" type="image/gif/png" href="Untitled.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,600;0,700;1,700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            theme: {
+              bg: '#F5F0EB',
+              dark: '#1A1A1A',
+              text: '#1A1A1A',
+              muted: '#6B6B6B',
+              light: '#F5F0EB',
+              accent: '#C8A97E',
+              surface: '#FFFFFF',
+              border: '#E0D9D0',
+              code: '#F0EBE3'
+            }
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background-color: #F5F0EB;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #preloader-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      transform: translate(-50%, -50%);
+      background-color: #1A1A1A;
+      border-radius: 50%;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    .fade-in-section, .reveal-block {
+      visibility: hidden;
+    }
+
+    /* 404 Glitch Effect */
+    @keyframes glitch {
+      0% { text-shadow: 0 0 0 transparent; transform: translateX(0); }
+      1% { text-shadow: 3px 0 0 #C8A97E, -3px 0 0 #6B6B6B; transform: translateX(-2px); }
+      2% { text-shadow: -3px 0 0 #C8A97E, 3px 0 0 #6B6B6B; transform: translateX(2px); }
+      3% { text-shadow: 0 0 0 transparent; transform: translateX(0); }
+      100% { text-shadow: 0 0 0 transparent; transform: translateX(0); }
+    }
+
+    .glitch-text {
+      animation: glitch 4s infinite linear;
+    }
+  </style>
+  <style type="text/tailwindcss">
+    @layer base {
+      body {
+        @apply bg-theme-bg text-theme-text font-body antialiased;
+      }
+    }
+    @layer utilities {
+      .btn-outline {
+        @apply inline-block bg-transparent border border-theme-text text-theme-text py-3 px-7 font-body text-xs uppercase tracking-[0.1em] transition-colors duration-300 hover:bg-theme-text hover:text-theme-light;
+      }
+    }
+  </style>
+</head>
+
+<body class="selection:bg-theme-accent selection:text-white overflow-hidden">
+
+  <!-- Preloader Screen -->
+  <div id="preloader">
+    <div id="preloader-circle"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 py-8 px-6 lg:px-[7%] flex justify-between items-center text-theme-text">
+    <a href="/" class="font-display text-2xl font-bold tracking-tighter hover:italic transition-all">GK.</a>
+  </nav>
+
+  <main class="h-screen w-full flex flex-col justify-center items-center text-center px-6">
+    <div class="fade-in-section flex flex-col items-center">
+      <h1 class="font-display italic text-[clamp(100px,15vw,250px)] leading-none text-theme-text tracking-tighter mb-4 glitch-text">
+        404
+      </h1>
+      <h2 class="font-display text-[clamp(24px,4vw,40px)] text-theme-muted mb-4">
+        This page doesn't exist.
+      </h2>
+      <span class="font-mono text-[13px] text-theme-accent uppercase tracking-[0.2em] mb-12 block">
+        // file not found
+      </span>
+      <a href="/" class="btn-outline">
+        &larr; Back to Portfolio
+      </a>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const tl = gsap.timeline();
+      
+      tl.to("#preloader-circle", {
+        opacity: 1,
+        duration: 0.2,
+        ease: "power2.out"
+      })
+      .to("#preloader-circle", {
+        scale: 400,
+        duration: 0.5,
+        ease: "expo.inOut"
+      }, "+=0.1")
+      .to("#preloader", {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.inOut",
+        onComplete: () => {
+          document.getElementById('preloader').style.display = 'none';
+        }
+      });
+
+      tl.set(".fade-in-section", { visibility: "visible" }, "-=0.3")
+        .fromTo(".fade-in-section", 
+          { y: 30, opacity: 0 }, 
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.3");
+    });
+  </script>
+</body>
+</html>
